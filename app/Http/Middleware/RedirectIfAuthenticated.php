@@ -20,11 +20,13 @@ class RedirectIfAuthenticated
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
+
+            if (  $guard == "web" && Auth::guard('web')->check()) {
                 return redirect(RouteServiceProvider::HOME);
+            }elseif($guard == "borrower" && Auth::guard('borrower')->check() ){
+                return redirect(RouteServiceProvider::BORROWERHOME);
             }
         }
-
         return $next($request);
     }
 }
